@@ -1,0 +1,34 @@
+{
+   "name":"sudiptpa/paypal-ipn",
+   "type":"library",
+   "description":"PayPal IPN listener driver for PHP",
+   "keywords":[
+      "paypal",
+      "ipn"
+   ],
+   "license":"MIT",
+   "authors":[
+      {
+         "name":"Sujip Thapa",
+         "email":"sudiptpa@gmail.com"
+      }
+   ],
+   "require":{
+      "php": ">=5.5",
+      "guzzlehttp/guzzle":"6.*",
+      "symfony/event-dispatcher":"~2.0|~3.0"
+   },
+   "require-dev":{
+      "friendsofphp/php-cs-fixer":"~1.0"
+   },
+   "extra":{
+      "branch-alias":{
+         "dev-master":"2.0.x-dev"
+      }
+   },
+   "autoload":{
+      "psr-4":{
+         "PayPal\\IPN\\":"src/"
+      }
+   }
+}

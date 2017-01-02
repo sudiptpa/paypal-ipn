@@ -44,7 +44,7 @@ class HttpService implements Service
         try {
             $response = $this->httpClient->post(
                 $this->serviceEndpoint,
-                ['form_params' => $requestBody]
+                ['body' => $requestBody]
             );
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage());

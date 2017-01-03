@@ -23,6 +23,15 @@ to your `composer.json` file:
     }
 }
 ```
+If you really need to work on guzzle 5.* pull version below.
+
+```
+{
+    "require": {
+        "sudiptpa/paypal-ipn": "1.0.x-dev",
+    }
+}
+```
 And run composer to update your dependencies:
 
     $ curl -s http://getcomposer.org/installer | php

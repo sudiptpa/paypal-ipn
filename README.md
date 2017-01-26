@@ -41,7 +41,7 @@ And run composer to update your dependencies:
 
 The following are 2 different methods provided by the package to handle PayPal IPN.
 
-### Using ArrayListener with by passing array of Data
+### Using ArrayListener by passing array of Data
 ```php
   require __DIR__.'/vendor/autoload.php';
 

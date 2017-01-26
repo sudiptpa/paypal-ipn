@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/sudiptpa/paypal-ipn.svg?branch=master)](https://travis-ci.org/sudiptpa/paypal-ipn)
 [![Latest Stable Version](https://poser.pugx.org/sudiptpa/paypal-ipn/v/stable)](https://packagist.org/packages/sudiptpa/paypal-ipn)
 [![Total Downloads](https://poser.pugx.org/sudiptpa/paypal-ipn/downloads)](https://packagist.org/packages/sudiptpa/paypal-ipn)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/sudiptpa/paypal-ipn/master/LICENSE)
+[![License](https://poser.pugx.org/sudiptpa/paypal-ipn/license)](https://packagist.org/packages/sudiptpa/paypal-ipn)
 
 ## Requirements
 This package requires PHP >=5.5

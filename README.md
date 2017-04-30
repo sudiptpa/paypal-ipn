@@ -118,13 +118,13 @@ The following are 2 different methods provided by the package to handle PayPal I
   $listener->listen();
 ```
 
-##Contributing
+## Contributing
 
 Contributions are **welcome** and will be fully **credited**.
 
 Contributions can be made via a Pull Request on [Github](https://github.com/sudiptpa/paypal-ipn).
 
-##Testing
+## Testing
 
 PayPal provide an Instant Payment Notification (IPN) simulator here: [https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSimulator/](https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNSimulator/)
 

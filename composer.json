@@ -1,7 +1,7 @@
 {
    "name":"sudiptpa/paypal-ipn",
    "type":"library",
-   "description":"PayPal IPN listener driver for PHP",
+   "description":"PayPal IPN (Instant Payment Notification) handling driver for PHP.",
    "keywords":[
       "paypal",
       "ipn"
@@ -23,12 +23,12 @@
    },
    "extra":{
       "branch-alias":{
-         "dev-master":"2.0.x-dev"
+         "dev-master":"3.0.x-dev"
       }
    },
    "autoload":{
       "psr-4":{
-         "PayPal\\IPN\\":"src/"
+         "Sujip\\PayPal\\Notification\\":"src/"
       }
    }
 }

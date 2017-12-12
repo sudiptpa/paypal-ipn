@@ -10,7 +10,8 @@ use Sujip\PayPal\Notification\Contracts\Payload;
 use Sujip\PayPal\Notification\Exceptions\ServiceException;
 
 /**
- * Class Request
+ * Class Request.
+ *
  * @package Sujip\PayPal\Notification\Http
  */
 class Request implements Service

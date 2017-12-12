@@ -3,7 +3,8 @@
 namespace Sujip\PayPal\Notification;
 
 /**
- * Class Payload
+ * Class Payload.
+ *
  * @package  Sujip\PayPal\Notification
  */
 class Payload
@@ -37,6 +38,7 @@ class Payload
      * Find a value from array with given key.
      *
      * @param $key
+     *
      * @return mixed
      */
     public function find($key)

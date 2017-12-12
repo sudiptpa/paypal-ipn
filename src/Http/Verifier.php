@@ -6,7 +6,8 @@ use Sujip\PayPal\Notification\Contracts\Payload;
 use Sujip\PayPal\Notification\Contracts\Service;
 
 /**
- * Class Verifier
+ * Class Verifier.
+ *
  * @package Sujip\PayPal\Notification\Http
  */
 class Verifier
@@ -31,6 +32,7 @@ class Verifier
      *  Send HTTP Request to PayPal & verfify payload.
      *
      * @param Payload $payload
+     *
      * @return mixed
      */
     public function verify(Payload $payload)

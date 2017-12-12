@@ -3,10 +3,10 @@
 namespace Sujip\PayPal\Notification\Http;
 
 use GuzzleHttp\Message\Response as GuzzleResponse;
-use Sujip\PayPal\Notification\Http\Verifier;
 
 /**
- * Class Response
+ * Class Response.
+ *
  * @package Sujip\PayPal\Notification\Http
  */
 class Response extends GuzzleResponse

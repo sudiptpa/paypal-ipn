@@ -6,7 +6,8 @@ use Sujip\PayPal\Notification\Payload;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class Verification
+ * Class Verification.
+ *
  * @package Sujip\PayPal\Notification\Events
  */
 abstract class Verification extends Event

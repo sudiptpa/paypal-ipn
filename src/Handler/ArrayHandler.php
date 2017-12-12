@@ -6,7 +6,8 @@ use Sujip\PayPal\Notification\Handler;
 use Sujip\PayPal\Notification\Payload\Arrayable;
 
 /**
- * Class ArrayHandler
+ * Class ArrayHandler.
+ *
  * @package Sujip\PayPal\Notification\Handler
  */
 class ArrayHandler extends Handler

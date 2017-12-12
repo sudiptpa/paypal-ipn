@@ -10,7 +10,8 @@ use Sujip\PayPal\Notification\Http\Verifier;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 
 /**
- * Class Manager
+ * Class Manager.
+ *
  * @package Sujip\PayPal\Notification
  */
 class Manager
@@ -35,8 +36,8 @@ class Manager
     private $verifier;
 
     /**
-     * @param Payload $payload
-     * @param Verifier $verifier
+     * @param Payload         $payload
+     * @param Verifier        $verifier
      * @param EventDispatcher $dispatcher
      */
     public function __construct(Payload $payload, Verifier $verifier, EventDispatcher $dispatcher)

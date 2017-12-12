@@ -3,7 +3,8 @@
 namespace Sujip\PayPal\Notification\Events;
 
 /**
- * Class Failure
+ * Class Failure.
+ *
  * @package Sujip\PayPal\Notification\Events
  */
 class Failure extends Verification

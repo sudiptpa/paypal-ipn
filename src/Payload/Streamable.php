@@ -6,7 +6,8 @@ use Sujip\PayPal\Notification\Contracts\Payload as Contract;
 use Sujip\PayPal\Notification\Payload;
 
 /**
- * Class Streamable
+ * Class Streamable.
+ *
  * @package Sujip\PayPal\Notification\Payload
  */
 class Streamable implements Contract

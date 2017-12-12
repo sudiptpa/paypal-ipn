@@ -6,7 +6,8 @@ use Sujip\PayPal\Notification\Contracts\Payload as Contract;
 use Sujip\PayPal\Notification\Payload;
 
 /**
- * Class Arrayable
+ * Class Arrayable.
+ *
  * @package Sujip\PayPal\Notification\Payload
  */
 class Arrayable implements Contract

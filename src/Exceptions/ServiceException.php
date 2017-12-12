@@ -9,4 +9,5 @@ use Exception;
  * @package Sujip\PayPal\Notification\Exception
  */
 class ServiceException extends Exception
-{}
+{
+}

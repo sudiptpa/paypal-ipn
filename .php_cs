@@ -1,8 +1,7 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = PhpCsFixer\Finder::create()
     ->in(__DIR__ . '/src');
 
-return Symfony\CS\Config\Config::create()
-    ->finder($finder)
-;
+return PhpCsFixer\Config::create()
+    ->setFinder($finder);

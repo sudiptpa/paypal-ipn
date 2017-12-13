@@ -1,32 +1,49 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
-use PayPal\IPN\Event\IPNInvalid;
-use PayPal\IPN\Event\IPNVerificationFailure;
-use PayPal\IPN\Event\IPNVerified;
-use PayPal\IPN\Listener\Http\InputStreamListener;
+use Sujip\PayPal\Notification\Events\Failure;
+use Sujip\PayPal\Notification\Events\Invalid;
+use Sujip\PayPal\Notification\Events\Verified;
+use Sujip\PayPal\Notification\Handler\ArrayHandler;
+use Sujip\PayPal\Notification\Handler\StreamHandler;
 
-$listener = new InputStreamListener();
+// Usage of this package in two different ways
 
-$listener = $listener->run();
+$event = (new StreamHandler())->handle();
 
-$listener->onInvalid(function (IPNInvalid $event) {
-    $ipnMessage = $event->getMessage();
+// or
 
-    file_put_contents('outcome.txt', "INVALID\n\n$ipnMessage");
+$event = (new ArrayHandler([
+    'foo' => 'bar',
+    'bar' => 'baz',
+]))
+    ->sandbox()
+    ->handle();
+
+$event->onInvalid(function (Invalid $request) {
+    $error = $request->error();
+    $payload = $request->getPayload();
+
+    echo "Invalid \n";
+
+    // Log error, payload was invalid, or something.
 });
 
-$listener->onVerified(function (IPNVerified $event) {
-    $ipnMessage = $event->getMessage();
+$event->onVerified(function (Verified $request) {
+    $payload = $request->getPayload();
 
-    file_put_contents('outcome.txt', "VERIFIED\n\n$ipnMessage");
+    echo "Verified \n";
+
+    // Ok, payload was valid, go ahead with your app logic.
 });
 
-$listener->onVerificationFailure(function (IPNVerificationFailure $event) {
-    $error = $event->getError();
+$event->onError(function (Failure $request) {
+    $error = $request->error();
 
-    file_put_contents('outcome.txt', "VERIFICATION FAILURE\n\n$error");
+    echo "Error \n";
+
+    // Oh snap !. error occured while establishing connection !
 });
 
-$listener->listen();
+$event->fire();

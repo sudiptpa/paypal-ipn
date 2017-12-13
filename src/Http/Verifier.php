@@ -2,8 +2,9 @@
 
 namespace Sujip\PayPal\Notification\Http;
 
-use Sujip\PayPal\Notification\Contracts\Payload;
 use Sujip\PayPal\Notification\Contracts\Service;
+use Sujip\PayPal\Notification\Payload;
+use UnexpectedValueException;
 
 /**
  * Class Verifier.
@@ -12,8 +13,8 @@ use Sujip\PayPal\Notification\Contracts\Service;
  */
 class Verifier
 {
-    const PAYPAL_INVALID = 'INVALID';
-    const PAYPAL_VERIFIED = 'VERIFIED';
+    const IPN_INVALID = 'INVALID';
+    const IPN_VERIFIED = 'VERIFIED';
 
     /**
      * @var mixed
@@ -37,14 +38,14 @@ class Verifier
      */
     public function verify(Payload $payload)
     {
-        $response = $this->service->verifyPayload($payload);
+        $response = $this->service->call($payload);
 
         $string = $response->getBody();
 
-        $pattern = sprintf('/(%s|%s)/', self::PAYPAL_VERIFIED, self::PAYPAL_INVALID);
+        $pattern = sprintf('/(%s|%s)/', self::IPN_VERIFIED, self::IPN_INVALID);
 
         if (!preg_match($pattern, $string)) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 sprintf('Unexpected verification status encountered: %s', $string)
             );
         }

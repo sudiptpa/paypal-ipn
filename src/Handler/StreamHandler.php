@@ -3,6 +3,7 @@
 namespace Sujip\PayPal\Notification\Handler;
 
 use Sujip\PayPal\Notification\Handler;
+use Sujip\PayPal\Notification\Payload\Streamable;
 
 /**
  * Class StreamHandler.

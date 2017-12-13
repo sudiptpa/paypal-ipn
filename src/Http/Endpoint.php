@@ -9,9 +9,14 @@ trait Endpoint
      */
     private $sandbox = false;
 
+    /**
+     * @return mixed
+     */
     public function sandbox()
     {
         $this->sandbox = true;
+
+        return $this;
     }
 
     /**
@@ -20,7 +25,7 @@ trait Endpoint
     protected function url()
     {
         return $this->sandbox ?
-            'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' :
-            'https://ipnpb.paypal.com/cgi-bin/webscr';
+        'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' :
+        'https://ipnpb.paypal.com/cgi-bin/webscr';
     }
 }

@@ -2,14 +2,14 @@
 
 namespace Sujip\PayPal\Notification\Http;
 
-use GuzzleHttp\Message\Response as GuzzleResponse;
+use GuzzleHttp\Psr7\Response as Psr7Response;
 
 /**
  * Class Response.
  *
  * @package Sujip\PayPal\Notification\Http
  */
-class Response extends GuzzleResponse
+class Response extends Psr7Response
 {
     /**
      * The guzzle http client response.
@@ -21,9 +21,9 @@ class Response extends GuzzleResponse
     /**
      * Create a new response instance.
      *
-     * @param GuzzleHttpResponse $response
+     * @param Psr7Response $response
      */
-    public function __construct(GuzzleHttpResponse $response)
+    public function __construct(Psr7Response $response)
     {
         $this->response = $response;
     }
@@ -38,7 +38,7 @@ class Response extends GuzzleResponse
      */
     public function isVerified()
     {
-        return $this->getBody() === Verifier::PAYPAL_VERIFIED;
+        return $this->getBody() === Verifier::IPN_VERIFIED;
     }
 
     /**
@@ -46,7 +46,7 @@ class Response extends GuzzleResponse
      */
     public function isInvalid()
     {
-        return $this->getBody() === Verifier::PAYPAL_INVALID;
+        return $this->getBody() === Verifier::IPN_INVALID;
     }
 
     /**

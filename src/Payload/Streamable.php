@@ -2,7 +2,7 @@
 
 namespace Sujip\PayPal\Notification\Payload;
 
-use Sujip\PayPal\Notification\Contracts\Payload as Contract;
+use Sujip\PayPal\Notification\Contracts\Payload as PayloadContract;
 use Sujip\PayPal\Notification\Payload;
 
 /**
@@ -10,7 +10,7 @@ use Sujip\PayPal\Notification\Payload;
  *
  * @package Sujip\PayPal\Notification\Payload
  */
-class Streamable implements Contract
+class Streamable implements PayloadContract
 {
     public function create()
     {

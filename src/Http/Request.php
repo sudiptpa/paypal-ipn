@@ -5,9 +5,9 @@ namespace Sujip\PayPal\Notification\Http;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use PayPal\IPN\Service;
-use Sujip\PayPal\Notification\Contracts\Payload;
+use Sujip\PayPal\Notification\Contracts\Service;
 use Sujip\PayPal\Notification\Exceptions\ServiceException;
+use Sujip\PayPal\Notification\Payload;
 
 /**
  * Class Request.
@@ -45,7 +45,7 @@ class Request implements Service
     /**
      * @param Payload $payload
      */
-    public function verifyPayload(Payload $payload)
+    public function call(Payload $payload)
     {
         $body = array_merge(
             ['cmd' => '_notify-validate'],

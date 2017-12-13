@@ -5,6 +5,7 @@ namespace Sujip\PayPal\Notification;
 use GuzzleHttp\Client;
 use Sujip\PayPal\Notification\Http\Endpoint;
 use Sujip\PayPal\Notification\Http\Request;
+use Sujip\PayPal\Notification\Http\Verifier;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -16,7 +17,7 @@ abstract class Handler
 {
     use Endpoint;
 
-    public function run()
+    public function handle()
     {
         return new Manager(
             $this->getPayload(),

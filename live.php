@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 use Sujip\PayPal\Notification\Events\Failure;
 use Sujip\PayPal\Notification\Events\Invalid;

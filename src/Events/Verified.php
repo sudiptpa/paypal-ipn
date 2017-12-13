@@ -8,4 +8,5 @@ namespace Sujip\PayPal\Notification\Events;
  * @package Sujip\PayPal\Notification\Events
  */
 class Verified extends Verification
-{}
+{
+}

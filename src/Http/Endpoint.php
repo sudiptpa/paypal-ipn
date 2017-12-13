@@ -25,7 +25,7 @@ trait Endpoint
     protected function url()
     {
         return $this->sandbox ?
-        'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' :
-        'https://ipnpb.paypal.com/cgi-bin/webscr';
+            'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' :
+            'https://ipnpb.paypal.com/cgi-bin/webscr';
     }
 }

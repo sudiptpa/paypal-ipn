@@ -33,7 +33,7 @@ class ArrayHandler extends Handler
         $this->payload = $payload;
     }
 
-    protected function getPayload()
+    public function getPayload()
     {
         return new Arrayable($this->payload);
     }

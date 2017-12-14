@@ -22,7 +22,15 @@ trait Endpoint
     /**
      * @return string
      */
-    protected function url()
+    public function env()
+    {
+        return $this->sandbox;
+    }
+
+    /**
+     * @return string
+     */
+    public function url()
     {
         return $this->sandbox ?
             'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' :

@@ -2,13 +2,12 @@
 
 namespace Sujip\Paypal\Notification\Test;
 
-use GuzzleHttp\Client as GuzzleClient;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 use Sujip\PayPal\Notification\Handler\ArrayHandler;
 
 /**
- * Class EndPointTest
+ * Class EndPointTest.
+ *
  * @package Sujip\Paypal\Notification\Test
  */
 class EndPointTest extends TestCase

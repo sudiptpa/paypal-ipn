@@ -47,3 +47,5 @@ $event->onError(function (Failure $request) {
 });
 
 $event->fire();
+
+//http://www.inanzzz.com/index.php/post/7cwp/mocking-guzzle-and-testing-external-api-with-phpunit

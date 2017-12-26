@@ -8,7 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use Sujip\PayPal\Notification\Handler\ArrayHandler;
 
 /**
- * Class ArrayHandlerTest
+ * Class ArrayHandlerTest.
+ *
  * @package Sujip\Paypal\Notification\Test
  */
 class ArrayHandlerTest extends TestCase
@@ -31,6 +32,7 @@ class ArrayHandlerTest extends TestCase
      * @param $response
      * @param $endpoint
      * @param $parameters
+     *
      * @return mixed
      */
     private function mockGuzzleRequest($response, $endpoint, $parameters)

@@ -1,7 +1,7 @@
 {
    "name":"sudiptpa/paypal-ipn",
    "type":"library",
-   "description":"PayPal IPN listener driver for PHP",
+   "description":"PayPal IPN (Instant Payment Notification) handling driver for PHP.",
    "keywords":[
       "paypal",
       "ipn"
@@ -14,21 +14,26 @@
       }
    ],
    "require":{
-      "php": "~5.5|~7.0",
+      "php": "~7.0",
       "guzzlehttp/guzzle":"6.*",
       "symfony/event-dispatcher":"~2.0|~3.0|~4.0"
    },
    "require-dev":{
-      "friendsofphp/php-cs-fixer":"~1.0"
+      "friendsofphp/php-cs-fixer":"~2.0",
+      "mockery/mockery": "^0.9.4",
+      "phpunit/phpunit": "6.*"
    },
    "extra":{
       "branch-alias":{
-         "dev-master":"2.0.x-dev"
+         "dev-master":"3.0.x-dev"
       }
    },
    "autoload":{
       "psr-4":{
-         "PayPal\\IPN\\":"src/"
+         "Sujip\\PayPal\\Notification\\":"src/"
       }
+   },
+   "scripts": {
+      "test": "vendor/bin/phpunit"
    }
 }

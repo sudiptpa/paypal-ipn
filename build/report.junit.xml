@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Test Suite" tests="3" assertions="4" errors="0" failures="0" skipped="0" time="0.001950">
+    <testsuite name="Sujip\Paypal\Notification\Test\ArrayHandlerTest" file="/var/www/html/packages/paypal-ipn/tests/ArrayHandlerTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.001652">
+      <testcase name="testInstanceOf" class="Sujip\Paypal\Notification\Test\ArrayHandlerTest" classname="Sujip.Paypal.Notification.Test.ArrayHandlerTest" file="/var/www/html/packages/paypal-ipn/tests/ArrayHandlerTest.php" line="25" assertions="1" time="0.001652"/>
+    </testsuite>
+    <testsuite name="Sujip\Paypal\Notification\Test\EndPointTest" file="/var/www/html/packages/paypal-ipn/tests/EndPointTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.000298">
+      <testcase name="testEnv" class="Sujip\Paypal\Notification\Test\EndPointTest" classname="Sujip.Paypal.Notification.Test.EndPointTest" file="/var/www/html/packages/paypal-ipn/tests/EndPointTest.php" line="27" assertions="1" time="0.000096"/>
+      <testcase name="testUrl" class="Sujip\Paypal\Notification\Test\EndPointTest" classname="Sujip.Paypal.Notification.Test.EndPointTest" file="/var/www/html/packages/paypal-ipn/tests/EndPointTest.php" line="32" assertions="2" time="0.000202"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

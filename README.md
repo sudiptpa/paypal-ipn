@@ -16,21 +16,13 @@ This package requires PHP >=5.5
 This package is installed via [Composer](http://getcomposer.org/). To install, simply add it
 to your `composer.json` file:
 
-```json
-{
-    "require": {
-        "sudiptpa/paypal-ipn": "~2.0"
-    }
-}
+```
+  composer require sudiptpa/paypal-ipn
 ```
 If you really need to work on guzzle 5.* pull version below.
 
 ```
-{
-    "require": {
-        "sudiptpa/paypal-ipn": "1.0.x-dev",
-    }
-}
+  composer require sudiptpa/paypal-ipn:1.0.x-dev
 ```
 And run composer to update your dependencies:
 

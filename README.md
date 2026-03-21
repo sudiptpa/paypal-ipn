@@ -10,12 +10,14 @@ Framework-agnostic, modernized PayPal IPN verification package for legacy Instan
 
 ## Why This Package
 
-PayPal IPN is legacy, but thousands of projects still depend on it. This package keeps the familiar listener flow that existing integrations already use while modernizing the internals for current PHP versions and optional transport strategies.
+PayPal IPN is legacy, but thousands of projects still depend on it. This package now gives you a modern fluent API for new work while still preserving the familiar listener flow that existing integrations already use.
+
+If you are integrating today, prefer the modern `Ipn` entry point. Keep the legacy handler flow when you want minimal application changes during upgrades.
 
 ## Highlights
 
+- preferred modern fluent usage with `Sujip\PayPal\Notification\Ipn`
 - stable legacy-style usage with `ArrayHandler` and `StreamHandler`
-- modern fluent usage with `Sujip\PayPal\Notification\Ipn`
 - zero hard runtime dependencies beyond PHP
 - no hard Guzzle dependency
 - no hard Symfony dependency
@@ -62,6 +64,20 @@ Use `paypal-notifications` when:
 - you want support for both PayPal IPN and Webhooks
 - you are building a newer integration around the modern PayPal notification model
 - you want one package to handle legacy and newer notification flows together
+
+## Recommended Usage
+
+For new integrations and most upgrades, prefer the modern fluent API:
+
+```php
+use Sujip\PayPal\Notification\Ipn;
+
+$result = Ipn::fromArray($_POST)
+    ->sandbox()
+    ->verify();
+```
+
+You can still attach listeners, custom transports, and dispatchers as needed.
 
 ## Quick Start
 
@@ -153,7 +169,7 @@ If none of those are available, the verification cycle fails with a clear transp
 
 ## Backward Compatibility
 
-The familiar listener-driven flow is intentionally preserved:
+The legacy listener-driven flow is intentionally preserved, but it is now the compatibility path rather than the recommended starting point:
 
 ```php
 $manager = (new ArrayHandler($payload))->sandbox()->handle();

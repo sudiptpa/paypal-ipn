@@ -1,18 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Handler;
 
 use Sujip\PayPal\Notification\Handler;
 use Sujip\PayPal\Notification\Payload\Streamable;
 
-/**
- * Class StreamHandler.
- *
- * @package Sujip\PayPal\Notification\Handler
- */
 class StreamHandler extends Handler
 {
-    protected function getPayload()
+    protected function getPayload(): Streamable
     {
         return new Streamable();
     }

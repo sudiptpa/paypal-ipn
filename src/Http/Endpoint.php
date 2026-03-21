@@ -1,39 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Http;
 
 trait Endpoint
 {
-    /**
-     * @var bool
-     */
-    private $sandbox = false;
+    private bool $sandbox = false;
 
-    /**
-     * @return mixed
-     */
-    public function sandbox()
+    public function sandbox(): static
     {
         $this->sandbox = true;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function env()
+    public function live(): static
+    {
+        $this->sandbox = false;
+
+        return $this;
+    }
+
+    public function env(): bool
     {
         return $this->sandbox;
     }
 
-    /**
-     * @return string
-     */
-    public function url()
+    public function url(): string
     {
-        return $this->sandbox ?
-            'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' :
-            'https://ipnpb.paypal.com/cgi-bin/webscr';
+        return $this->sandbox
+            ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr'
+            : 'https://ipnpb.paypal.com/cgi-bin/webscr';
     }
 }

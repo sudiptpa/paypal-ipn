@@ -1,31 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Payload;
 
 use Sujip\PayPal\Notification\Contracts\Payload as PayloadContract;
 use Sujip\PayPal\Notification\Payload;
 
-/**
- * Class Arrayable.
- *
- * @package Sujip\PayPal\Notification\Payload
- */
-class Arrayable implements PayloadContract
+final readonly class Arrayable implements PayloadContract
 {
     /**
-     * @var array
+     * @param array<string, mixed> $payload
      */
-    private $payload;
-
-    /**
-     * @param array $payload
-     */
-    public function __construct(array $payload = [])
-    {
-        $this->payload = $payload;
+    public function __construct(
+        private array $payload = [],
+    ) {
     }
 
-    public function create()
+    public function create(): Payload
     {
         return new Payload($this->payload);
     }

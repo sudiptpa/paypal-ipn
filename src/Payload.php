@@ -1,72 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification;
 
-/**
- * Class Payload.
- *
- * @package  Sujip\PayPal\Notification
- */
-class Payload
+final class Payload implements \Stringable
 {
-    /**
-     * @var array
-     */
-    private $payload = [];
+    /** @var array<array-key, mixed> */
+    private array $payload = [];
 
     /**
-     * @param $payload
+     * @param array<array-key, mixed>|string $payload
      */
-    public function __construct($payload)
+    public function __construct(array|string $payload)
     {
-        if (!is_array($payload)) {
-            $payload = $this->parseRawString($payload);
-        }
+        $this->payload = is_array($payload)
+            ? $payload
+            : $this->parseRawString($payload);
+    }
 
-        $this->payload = $payload;
+    public function __toString(): string
+    {
+        return http_build_query($this->payload, '', '&');
+    }
+
+    public function find(string $key): mixed
+    {
+        return $this->payload[$key] ?? null;
     }
 
     /**
-     * @return string
+     * @return array<array-key, mixed>
      */
-    public function __toString()
-    {
-        return http_build_query($this->all(), null, '&');
-    }
-
-    /**
-     * Find a value from array with given key.
-     *
-     * @param $key
-     *
-     * @return mixed
-     */
-    public function find($key)
-    {
-        if (isset($this->payload[$key])) {
-            return $this->payload[$key];
-        }
-
-        return null;
-    }
-
-    /**
-     * @return array
-     */
-    public function all()
+    public function all(): array
     {
         return $this->payload;
     }
 
     /**
-     * @param $string
-     *
-     * @return mixed
+     * @return array<array-key, mixed>
      */
-    private function parseRawString($string)
+    private function parseRawString(string $string): array
     {
+        $data = [];
         parse_str($string, $data);
 
-        return $data;
+        return is_array($data) ? $data : [];
     }
 }

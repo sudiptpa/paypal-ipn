@@ -1,39 +1,58 @@
 {
-   "name":"sudiptpa/paypal-ipn",
-   "type":"library",
-   "description":"PayPal IPN (Instant Payment Notification) handling driver for PHP.",
-   "keywords":[
-      "paypal",
-      "ipn"
-   ],
-   "license":"MIT",
-   "authors":[
-      {
-         "name":"Sujip Thapa",
-         "email":"sudiptpa@gmail.com"
-      }
-   ],
-   "require":{
-      "php": "~7.0",
-      "guzzlehttp/guzzle":"6.*",
-      "symfony/event-dispatcher":"~2.0|~3.0|~4.0"
-   },
-   "require-dev":{
-      "friendsofphp/php-cs-fixer":"~2.0",
-      "mockery/mockery": "^0.9.4",
-      "phpunit/phpunit": "6.*"
-   },
-   "extra":{
-      "branch-alias":{
-         "dev-master":"3.0.x-dev"
-      }
-   },
-   "autoload":{
-      "psr-4":{
-         "Sujip\\PayPal\\Notification\\":"src/"
-      }
-   },
-   "scripts": {
-      "test": "vendor/bin/phpunit"
-   }
+  "name": "sudiptpa/paypal-ipn",
+  "description": "Modernized, framework-agnostic PayPal IPN verification package for legacy IPN workflows.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "paypal",
+    "ipn",
+    "legacy",
+    "notification"
+  ],
+  "authors": [
+    {
+      "name": "Sujip Thapa",
+      "email": "sudiptpa@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Sujip\\PayPal\\Notification\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sujip\\PayPal\\Notification\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.2 <8.6"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.12 || ^2.0",
+    "phpunit/phpunit": "^10.5 || ^11.0",
+    "rector/rector": "^1.2"
+  },
+  "suggest": {
+    "ext-curl": "Enable the built-in cURL transport for zero-dependency IPN verification.",
+    "guzzlehttp/guzzle": "Use the optional Guzzle transport or inject your own preferred HTTP client adapter."
+  },
+  "scripts": {
+    "test": "phpunit --configuration=phpunit.xml.dist",
+    "test:coverage": "phpunit --configuration=phpunit.xml.dist --coverage-text --coverage-clover build/coverage/clover.xml",
+    "stan": "phpstan analyse --configuration=phpstan.neon.dist --no-progress --memory-limit=1G",
+    "rector": "rector process --config=rector.php",
+    "rector:check": "rector process --config=rector.php --dry-run",
+    "lint": "find src tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l",
+    "qa": [
+      "@lint",
+      "@stan",
+      "@test"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }

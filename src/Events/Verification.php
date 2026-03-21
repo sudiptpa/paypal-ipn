@@ -1,34 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Events;
 
 use Sujip\PayPal\Notification\Payload;
-use Symfony\Component\EventDispatcher\Event;
 
-/**
- * Class Verification.
- *
- * @package Sujip\PayPal\Notification\Events
- */
-abstract class Verification extends Event
+abstract class Verification
 {
-    /**
-     * @var mixed
-     */
-    private $payload;
-
-    /**
-     * @param Payload $payload
-     */
-    public function __construct(Payload $payload)
-    {
-        $this->payload = $payload;
+    public function __construct(
+        private readonly Payload $payload,
+    ) {
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPayload()
+    public function getPayload(): Payload
     {
         return $this->payload;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require __DIR__.'/vendor/autoload.php';
 
 use Sujip\PayPal\Notification\Events\Failure;
@@ -8,44 +10,32 @@ use Sujip\PayPal\Notification\Events\Verified;
 use Sujip\PayPal\Notification\Handler\ArrayHandler;
 use Sujip\PayPal\Notification\Handler\StreamHandler;
 
-// Usage of this package in two different ways
+$manager = (new StreamHandler())->handle();
 
-$event = (new StreamHandler())->handle();
-
-// or
-
-$event = (new ArrayHandler([
+$manager = (new ArrayHandler([
     'foo' => 'bar',
     'bar' => 'baz',
 ]))
     ->sandbox()
     ->handle();
 
-$event->onInvalid(function (Invalid $request) {
-    $error = $request->error();
-    $payload = $request->getPayload();
+$manager->onInvalid(function (Invalid $event): void {
+    $payload = $event->getPayload();
+    $error = $event->error();
 
-    echo "Invalid \n";
-
-    // Log error, payload was invalid, or something.
+    echo "Invalid\n";
 });
 
-$event->onVerified(function (Verified $request) {
-    $payload = $request->getPayload();
+$manager->onVerified(function (Verified $event): void {
+    $payload = $event->getPayload();
 
-    echo "Verified \n";
-
-    // Ok, payload was valid, go ahead with your app logic.
+    echo "Verified\n";
 });
 
-$event->onError(function (Failure $request) {
-    $error = $request->error();
+$manager->onError(function (Failure $event): void {
+    $error = $event->error();
 
-    echo "Error \n";
-
-    // Oh snap !. error occured while establishing connection !
+    echo "Error\n";
 });
 
-$event->fire();
-
-//http://www.inanzzz.com/index.php/post/7cwp/mocking-guzzle-and-testing-external-api-with-phpunit
+$manager->fire();

@@ -1,106 +1,64 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification;
 
-use PayPal\IPN\Exception\ServiceException;
-use Sujip\PayPal\Notification\Contracts\Payload;
+use Sujip\PayPal\Notification\Contracts\DispatcherInterface;
+use Sujip\PayPal\Notification\Contracts\Payload as PayloadContract;
 use Sujip\PayPal\Notification\Events\Failure;
 use Sujip\PayPal\Notification\Events\Invalid;
+use Sujip\PayPal\Notification\Events\Verification;
 use Sujip\PayPal\Notification\Events\Verified;
-use Sujip\PayPal\Notification\Http\Verifier;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
+use Sujip\PayPal\Notification\Exceptions\ServiceException;
+use Sujip\PayPal\Notification\Http\IpnVerifier;
 
-/**
- * Class Manager.
- *
- * @package Sujip\PayPal\Notification
- */
-class Manager
+final readonly class Manager
 {
-    const IPN_INVALID = 'ipn:invalid';
-    const IPN_FAILURE = 'ipn:verification.failure';
-    const IPN_VERIFIED = 'ipn:verified';
+    public const IPN_INVALID = 'ipn:invalid';
 
-    /**
-     * @var mixed
-     */
-    private $dispatcher;
+    public const IPN_FAILURE = 'ipn:verification.failure';
 
-    /**
-     * @var mixed
-     */
-    private $payload;
+    public const IPN_VERIFIED = 'ipn:verified';
 
-    /**
-     * @var mixed
-     */
-    private $verifier;
-
-    /**
-     * @param Payload         $payload
-     * @param Verifier        $verifier
-     * @param EventDispatcher $dispatcher
-     */
-    public function __construct(Payload $payload, Verifier $verifier, EventDispatcher $dispatcher)
-    {
-        $this->payload = $payload;
-        $this->verifier = $verifier;
-        $this->eventDispatcher = $dispatcher;
+    public function __construct(
+        private PayloadContract $payload,
+        private IpnVerifier $verifier,
+        private DispatcherInterface $eventDispatcher,
+    ) {
     }
 
-    public function fire()
+    public function fire(): Verification
     {
         $payload = $this->payload->create();
 
         try {
             $response = $this->verifier->verify($payload);
-
-            if ($response->isVerified()) {
-                $name = self::IPN_VERIFIED;
-                $event = new Verified($payload);
-            }
-
-            if ($response->isInvalid()) {
-                $name = self::IPN_INVALID;
-                $event = new Invalid($payload);
-            }
-        } catch (\UnexpectedValueException $e) {
+            $event = $response->isVerified()
+                ? new Verified($payload)
+                : new Invalid($payload);
+            $name = $response->isVerified() ? self::IPN_VERIFIED : self::IPN_INVALID;
+        } catch (\UnexpectedValueException|ServiceException $exception) {
             $name = self::IPN_FAILURE;
-            $event = new Failure(
-                $payload,
-                $e->getMessage()
-            );
-        } catch (ServiceException $e) {
-            $name = self::IPN_FAILURE;
-            $event = new Failure(
-                $payload,
-                $e->getMessage()
-            );
+            $event = new Failure($payload, $exception->getMessage());
         }
 
-        $this->eventDispatcher->dispatch($name, $event);
+        $this->eventDispatcher->dispatch($event, $name);
+
+        return $event;
     }
 
-    /**
-     * @param callable $callback
-     */
-    public function onInvalid(callable $callback)
+    public function onInvalid(callable $callback): void
     {
         $this->eventDispatcher->addListener(self::IPN_INVALID, $callback);
     }
 
-    /**
-     * @param callable $callback
-     */
-    public function onError(callable $callback)
+    public function onError(callable $callback): void
     {
         $this->eventDispatcher->addListener(self::IPN_FAILURE, $callback);
     }
 
-    /**
-     * @param callable $callback
-     */
-    public function onVerified(callable $callback)
+    public function onVerified(callable $callback): void
     {
         $this->eventDispatcher->addListener(self::IPN_VERIFIED, $callback);
     }

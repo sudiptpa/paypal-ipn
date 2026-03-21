@@ -23,19 +23,7 @@ What stays familiar:
 
 ## Migration Examples
 
-### Existing usage
-
-```php
-$manager = (new ArrayHandler($payload))->sandbox()->handle();
-$manager->onVerified($verifiedListener);
-$manager->onInvalid($invalidListener);
-$manager->onError($failureListener);
-$manager->fire();
-```
-
-This pattern still works.
-
-### Modern usage
+### Recommended modern usage
 
 ```php
 Ipn::fromArray($payload)
@@ -47,6 +35,18 @@ Ipn::fromArray($payload)
 ```
 
 This uses the same verifier and event model underneath, but with a modern fluent entry point.
+
+### Existing legacy usage
+
+```php
+$manager = (new ArrayHandler($payload))->sandbox()->handle();
+$manager->onVerified($verifiedListener);
+$manager->onInvalid($invalidListener);
+$manager->onError($failureListener);
+$manager->fire();
+```
+
+This pattern still works and remains the compatibility path.
 
 ### Optional Guzzle integration
 

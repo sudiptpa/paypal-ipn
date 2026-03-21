@@ -47,6 +47,21 @@ composer require guzzlehttp/guzzle
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)
 
+## Looking For A Modern Unified PayPal Package?
+
+If you are starting a new integration or want one modern package for both legacy IPN and PayPal Webhooks, use [`sudiptpa/paypal-notifications`](https://github.com/sudiptpa/paypal-notifications).
+
+Use this package when:
+
+- you want a focused IPN-only package
+- you need to modernize an existing IPN integration with minimal behavioral change
+
+Use `paypal-notifications` when:
+
+- you want support for both PayPal IPN and Webhooks
+- you are building a newer integration around the modern PayPal notification model
+- you want one package to handle legacy and newer notification flows together
+
 ## Quick Start
 
 ```php

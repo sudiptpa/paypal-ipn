@@ -15,6 +15,7 @@ PayPal IPN is legacy, but thousands of projects still depend on it. This package
 ## Highlights
 
 - stable legacy-style usage with `ArrayHandler` and `StreamHandler`
+- modern fluent usage with `Sujip\PayPal\Notification\Ipn`
 - zero hard runtime dependencies beyond PHP
 - no hard Guzzle dependency
 - no hard Symfony dependency
@@ -64,6 +65,36 @@ Use `paypal-notifications` when:
 
 ## Quick Start
 
+### Modern Fluent Usage
+
+```php
+use Sujip\PayPal\Notification\Events\Failure;
+use Sujip\PayPal\Notification\Events\Invalid;
+use Sujip\PayPal\Notification\Events\Verified;
+use Sujip\PayPal\Notification\Ipn;
+
+$result = Ipn::fromArray($_POST)
+    ->sandbox()
+    ->onVerified(function (Verified $event): void {
+        $payload = $event->getPayload();
+
+        // Process the verified PayPal IPN here.
+    })
+    ->onInvalid(function (Invalid $event): void {
+        $payload = $event->getPayload();
+
+        // Log the invalid payload here.
+    })
+    ->onError(function (Failure $event): void {
+        $error = $event->error();
+
+        // Log transport or verification errors here.
+    })
+    ->verify();
+```
+
+### Legacy Listener Usage
+
 ```php
 use Sujip\PayPal\Notification\Events\Failure;
 use Sujip\PayPal\Notification\Events\Invalid;
@@ -99,6 +130,7 @@ $manager->fire();
 
 The package is intentionally conservative about the legacy integration shape. These areas should be treated as public API for consumers:
 
+- `Sujip\PayPal\Notification\Ipn`
 - `Sujip\PayPal\Notification\Handler\ArrayHandler`
 - `Sujip\PayPal\Notification\Handler\StreamHandler`
 - `Sujip\PayPal\Notification\Manager`
@@ -131,7 +163,16 @@ $manager->onError(fn ($event) => null);
 $manager->fire();
 ```
 
-That means users can upgrade the package internals without needing a functionality rewrite in their applications.
+There is also a modern fluent entry point with the same verification engine underneath:
+
+```php
+Ipn::fromArray($payload)
+    ->sandbox()
+    ->onVerified(fn ($event) => null)
+    ->verify();
+```
+
+That means users can upgrade the package internals without needing a functionality rewrite in their applications, while newer integrations can adopt a cleaner API.
 
 ## Extendability
 
@@ -172,6 +213,7 @@ The test suite covers:
 - verified, invalid, and failure event dispatching
 - custom service injection
 - local dispatcher behavior and external dispatcher interoperability
+- legacy and modern public usage styles
 - request transport validation behavior
 
 ## License

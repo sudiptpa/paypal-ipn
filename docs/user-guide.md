@@ -12,7 +12,35 @@ Optional transport package:
 composer require guzzlehttp/guzzle
 ```
 
-## Basic Array Usage
+## Modern Fluent Usage
+
+```php
+use Sujip\PayPal\Notification\Events\Failure;
+use Sujip\PayPal\Notification\Events\Invalid;
+use Sujip\PayPal\Notification\Events\Verified;
+use Sujip\PayPal\Notification\Ipn;
+
+$result = Ipn::fromArray($_POST)
+    ->sandbox()
+    ->onVerified(function (Verified $event): void {
+        $payload = $event->getPayload();
+
+        // Mark payment as verified.
+    })
+    ->onInvalid(function (Invalid $event): void {
+        $payload = $event->getPayload();
+
+        // Log suspicious or malformed IPN payloads.
+    })
+    ->onError(function (Failure $event): void {
+        $message = $event->error();
+
+        // Log connectivity or verification failures.
+    })
+    ->verify();
+```
+
+## Legacy Array Usage
 
 ```php
 use Sujip\PayPal\Notification\Events\Failure;
@@ -45,15 +73,26 @@ $manager->onError(function (Failure $event): void {
 $manager->fire();
 ```
 
+## Raw Payload Usage
+
+```php
+use Sujip\PayPal\Notification\Ipn;
+
+$result = Ipn::fromRaw(file_get_contents('php://input') ?: '')
+    ->verify();
+```
+
 ## Input Stream Usage
 
 ```php
 use Sujip\PayPal\Notification\Handler\StreamHandler;
+use Sujip\PayPal\Notification\Ipn;
 
-$manager = (new StreamHandler())
+$legacyManager = (new StreamHandler())
     ->handle();
 
-$manager->fire();
+$modernResult = Ipn::fromStream()
+    ->verify();
 ```
 
 ## Environments
@@ -63,6 +102,9 @@ Use live mode by default, or switch to the PayPal sandbox endpoint:
 ```php
 $handler->sandbox();
 $handler->live();
+
+$ipn->sandbox();
+$ipn->live();
 ```
 
 ## Custom Transport
@@ -88,6 +130,10 @@ Attach it like this:
 $manager = (new ArrayHandler($_POST))
     ->using(new LaravelHttpTransport())
     ->handle();
+
+$result = Ipn::fromArray($_POST)
+    ->using(new LaravelHttpTransport())
+    ->verify();
 ```
 
 ## External Dispatcher
@@ -96,6 +142,11 @@ $manager = (new ArrayHandler($_POST))
 $manager = (new ArrayHandler($_POST))
     ->withDispatcher($yourDispatcher)
     ->handle();
+
+$result = Ipn::fromArray($_POST)
+    ->withDispatcher($yourDispatcher)
+    ->onVerified($verifiedListener)
+    ->verify();
 ```
 
 Your dispatcher only needs two methods:

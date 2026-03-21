@@ -6,8 +6,9 @@ namespace Sujip\PayPal\Notification\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Sujip\PayPal\Notification\Handler\ArrayHandler;
+use Sujip\PayPal\Notification\Ipn;
 
-final class EndPointTest extends TestCase
+final class EndpointTest extends TestCase
 {
     private const SANDBOX = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
 
@@ -36,5 +37,14 @@ final class EndPointTest extends TestCase
         $this->assertSame(self::LIVE, $handler->url());
         $this->assertSame(self::SANDBOX, $handler->sandbox()->url());
         $this->assertSame(self::LIVE, $handler->live()->url());
+    }
+
+    public function testModernFacadeUsesSameEndpointSwitching(): void
+    {
+        $ipn = Ipn::fromArray(['foo' => 'bar']);
+
+        $this->assertSame(self::LIVE, $ipn->url());
+        $this->assertSame(self::SANDBOX, $ipn->sandbox()->url());
+        $this->assertSame(self::LIVE, $ipn->live()->url());
     }
 }

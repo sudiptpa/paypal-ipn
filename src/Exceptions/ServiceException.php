@@ -1,14 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Exceptions;
 
-use Exception;
-
-/**
- * Class ServiceException.
- *
- * @package Sujip\PayPal\Notification\Exception
- */
-class ServiceException extends Exception
+final class ServiceException extends \RuntimeException
 {
 }

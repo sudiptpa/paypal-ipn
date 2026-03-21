@@ -1,56 +1,86 @@
 <?php
 
-namespace Sujip\Paypal\Notification\Test;
+declare(strict_types=1);
 
-use GuzzleHttp\Client as GuzzleClient;
+namespace Sujip\PayPal\Notification\Tests;
+
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
+use Sujip\PayPal\Notification\Contracts\Service;
+use Sujip\PayPal\Notification\Events\Failure;
+use Sujip\PayPal\Notification\Events\Verified;
 use Sujip\PayPal\Notification\Handler\ArrayHandler;
+use Sujip\PayPal\Notification\Http\Response;
+use Sujip\PayPal\Notification\Payload;
 
-/**
- * Class ArrayHandlerTest.
- *
- * @package Sujip\Paypal\Notification\Test
- */
-class ArrayHandlerTest extends TestCase
+final class ArrayHandlerTest extends TestCase
 {
-    public function setUp()
+    public function testHandleReturnsManagerAndPayloadRemainsAccessible(): void
     {
-        $this->event = (new ArrayHandler([
+        $handler = new ArrayHandler([
             'foo' => 'bar',
             'bar' => 'baz',
-        ]));
+        ]);
+
+        $this->assertInstanceOf(ArrayHandler::class, $handler);
+        $this->assertSame('bar', $handler->getPayload()->create()->find('foo'));
+        $this->assertSame('foo=bar&bar=baz', (string) $handler->getPayload()->create());
     }
 
-    /** @test */
-    public function testInstanceOf()
+    public function testSetPayloadReplacesExistingPayload(): void
     {
-        $this->assertInstanceOf(ArrayHandler::class, $this->event);
+        $handler = new ArrayHandler(['txn_id' => 'first']);
+        $handler->setPayload(['txn_id' => 'second']);
+
+        $this->assertSame('second', $handler->getPayload()->create()->find('txn_id'));
     }
 
-    /**
-     * @param $response
-     * @param $endpoint
-     * @param $parameters
-     *
-     * @return mixed
-     */
-    private function mockGuzzleRequest($response, $endpoint, $parameters)
+    public function testCustomServiceCanBeInjected(): void
     {
-        $mockResponse = $this->getMockBuilder(ResponseInterface::class)
-            ->getMock();
-        $mockResponse->expects($this->once())
-            ->method('getBody')
-            ->willReturn($response);
+        $service = new class implements Service {
+            public function call(Payload $payload): Response
+            {
+                return new Response('VERIFIED', 200);
+            }
+        };
 
-        $mockGuzzle = $this->getMockBuilder(GuzzleClient::class)
-            ->setMethods(['post'])
-            ->getMock();
-        $mockGuzzle->expects($this->once())
-            ->method('post')
-            ->with($endpoint, $parameters)
-            ->willReturn($mockResponse);
+        $manager = (new ArrayHandler(['txn_id' => '123']))
+            ->using($service)
+            ->handle();
 
-        return $mockGuzzle;
+        $captured = null;
+        $manager->onVerified(static function (Verified $event) use (&$captured): void {
+            $captured = $event;
+        });
+
+        $event = $manager->fire();
+
+        $this->assertInstanceOf(Verified::class, $event);
+        $this->assertInstanceOf(Verified::class, $captured);
+        $this->assertSame('123', $captured->getPayload()->find('txn_id'));
+    }
+
+    public function testUnexpectedStatusDispatchesFailure(): void
+    {
+        $service = new class implements Service {
+            public function call(Payload $payload): Response
+            {
+                return new Response('MAYBE', 200);
+            }
+        };
+
+        $manager = (new ArrayHandler(['txn_id' => '123']))
+            ->using($service)
+            ->handle();
+
+        $captured = null;
+        $manager->onError(static function (Failure $event) use (&$captured): void {
+            $captured = $event;
+        });
+
+        $event = $manager->fire();
+
+        $this->assertInstanceOf(Failure::class, $event);
+        $this->assertInstanceOf(Failure::class, $captured);
+        self::assertStringContainsString('Unexpected verification status encountered', (string) $captured->error());
     }
 }

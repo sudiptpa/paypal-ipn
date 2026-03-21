@@ -1,39 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Handler;
 
 use Sujip\PayPal\Notification\Handler;
 use Sujip\PayPal\Notification\Payload\Arrayable;
 
-/**
- * Class ArrayHandler.
- *
- * @package Sujip\PayPal\Notification\Handler
- */
 class ArrayHandler extends Handler
 {
     /**
-     * @var array
+     * @param array<string, mixed> $payload
      */
-    protected $payload = [];
+    public function __construct(protected array $payload = [])
+    {
+    }
 
     /**
-     * @param array $payload
+     * @param array<string, mixed> $payload
      */
-    public function __construct(array $payload = [])
+    public function setPayload(array $payload): void
     {
         $this->payload = $payload;
     }
 
-    /**
-     * @param array $payload
-     */
-    public function setPayload(array $payload)
-    {
-        $this->payload = $payload;
-    }
-
-    public function getPayload()
+    public function getPayload(): Arrayable
     {
         return new Arrayable($this->payload);
     }

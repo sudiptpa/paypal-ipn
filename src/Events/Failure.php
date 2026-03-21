@@ -1,31 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sujip\PayPal\Notification\Events;
 
 use Sujip\PayPal\Notification\Payload;
 
-/**
- * Class Failure.
- *
- * @package Sujip\PayPal\Notification\Events
- */
-class Failure extends Verification
+final class Failure extends Verification
 {
-    /**
-     * @param Payplad $payload
-     * @param $error
-     */
-    public function __construct(Payload $payload, $error = null)
-    {
+    public function __construct(
+        Payload $payload,
+        private readonly ?string $error = null,
+    ) {
         parent::__construct($payload);
-
-        $this->error = $error;
     }
 
-    /**
-     * @return string
-     */
-    public function error()
+    public function error(): ?string
     {
         return $this->error;
     }

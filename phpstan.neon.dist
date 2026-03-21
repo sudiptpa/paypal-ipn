@@ -1,0 +1,22 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    tmpDir: build/phpstan
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '~Parameter #1 \$callback of function call_user_func expects callable\(\): mixed, array\{object, ''addListener''\} given~'
+        - '~Parameter #1 \$callback of function call_user_func expects callable\(\): mixed, array\{object, ''dispatch''\} given~'
+        - '~Property .*GuzzleTransport::\$client has unknown class GuzzleHttp\\ClientInterface as its type~'
+        - '~Parameter \$client of method .*GuzzleTransport::__construct\(\) has invalid type GuzzleHttp\\ClientInterface~'
+        - '~Default value of the parameter #1 \$client \(GuzzleHttp\\Client\) of method .*GuzzleTransport::__construct\(\) is incompatible with type GuzzleHttp\\ClientInterface~'
+        - '~Instantiated class GuzzleHttp\\Client not found~'
+        - '~Property .*GuzzleTransport::\$client .* does not accept GuzzleHttp\\Client\|GuzzleHttp\\ClientInterface~'
+        - '~Call to method request\(\) on an unknown class GuzzleHttp\\ClientInterface~'
+        - '~Caught class GuzzleHttp\\Exception\\GuzzleException not found~'
+        - '~Call to method getCode\(\) on an unknown class GuzzleHttp\\Exception\\GuzzleException~'
+        - '~Call to method getMessage\(\) on an unknown class GuzzleHttp\\Exception\\GuzzleException~'
+        - '~Parameter .* of class Sujip\\PayPal\\Notification\\Http\\GuzzleTransport constructor expects GuzzleHttp\\ClientInterface, mixed given~'
+        - '~Parameter .* of class Sujip\\PayPal\\Notification\\Http\\GuzzleTransport constructor expects GuzzleHttp\\ClientInterface, null given~'

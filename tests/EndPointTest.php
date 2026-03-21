@@ -1,39 +1,40 @@
 <?php
 
-namespace Sujip\Paypal\Notification\Test;
+declare(strict_types=1);
+
+namespace Sujip\PayPal\Notification\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Sujip\PayPal\Notification\Handler\ArrayHandler;
 
-/**
- * Class EndPointTest.
- *
- * @package Sujip\Paypal\Notification\Test
- */
-class EndPointTest extends TestCase
+final class EndPointTest extends TestCase
 {
-    const SANDOBX = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
-    const LIVE = 'https://ipnpb.paypal.com/cgi-bin/webscr';
+    private const SANDBOX = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
 
-    public function setUp()
+    private const LIVE = 'https://ipnpb.paypal.com/cgi-bin/webscr';
+
+    public function testEnvDefaultsToLive(): void
     {
-        $this->event = (new ArrayHandler([
-            'foo' => 'bar',
-            'bar' => 'baz',
-        ]));
+        $handler = new ArrayHandler(['foo' => 'bar']);
+
+        $this->assertFalse($handler->env());
+        $this->assertSame(self::LIVE, $handler->url());
     }
 
-    public function testEnv()
+    public function testEnvChangesWhenSandboxIsEnabled(): void
     {
-        $this->assertTrue($this->event->sandbox()->env());
+        $handler = new ArrayHandler(['foo' => 'bar']);
+
+        $this->assertTrue($handler->sandbox()->env());
+        $this->assertSame(self::SANDBOX, $handler->url());
     }
 
-    public function testUrl()
+    public function testUrlSwitchesBetweenLiveAndSandbox(): void
     {
-        $this->assertEquals($this->event->url(), self::LIVE);
+        $handler = new ArrayHandler(['foo' => 'bar']);
 
-        $this->event->sandbox();
-
-        $this->assertEquals($this->event->url(), self::SANDOBX);
+        $this->assertSame(self::LIVE, $handler->url());
+        $this->assertSame(self::SANDBOX, $handler->sandbox()->url());
+        $this->assertSame(self::LIVE, $handler->live()->url());
     }
 }

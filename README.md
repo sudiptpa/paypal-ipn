@@ -8,6 +8,12 @@ Framework-agnostic, modernized PayPal IPN verification package for legacy Instan
 [![PHP Version](https://img.shields.io/badge/php-8.2--8.5-777bb4.svg)](https://www.php.net/)
 [![License](https://img.shields.io/packagist/l/sudiptpa/paypal-ipn.svg)](LICENSE)
 
+---
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/sudiptpa)
+
+If this package has been useful to you, GitHub Sponsors is a simple way to support ongoing maintenance, improvements, and future releases.
+
 ## Why This Package
 
 PayPal IPN is legacy, but thousands of projects still depend on it. This package now gives you a modern fluent API for new work while still preserving the familiar listener flow that existing integrations already use.
